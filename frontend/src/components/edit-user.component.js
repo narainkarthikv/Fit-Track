@@ -9,7 +9,7 @@ export default class UsersList extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://fit-track-ilkr.onrender.com/users/')
+    axios.get('https://fit-track-epab.onrender.com/users/')
       .then(response => {
         this.setState({ users: response.data });
       })
@@ -19,7 +19,7 @@ export default class UsersList extends Component {
   }
 
   deleteUser(id) {
-    axios.delete('https://fit-track-ilkr.onrender.com/users/'+id)
+    axios.delete('https://fit-track-epab.onrender.com/users/'+id)
       .then(response => { console.log(response.data)});
     this.setState({
       users: this.state.users.filter(el => el._id !== id)

@@ -23,7 +23,7 @@ export default class CreateExercise extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://fit-track-ilkr.onrender.com/users')
+    axios.get('https://fit-track-epab.onrender.com/users')
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
@@ -69,7 +69,7 @@ export default class CreateExercise extends Component {
   
     console.log(exercise);
   
-    axios.post('https://fit-track-ilkr.onrender.com/exercises/add', exercise)
+    axios.post('https://fit-track-epab.onrender.com/exercises/add', exercise)
       .then(res => {
         console.log(res.data);
         this.setState({
@@ -83,7 +83,7 @@ export default class CreateExercise extends Component {
         console.log(error);
       });
   
-    axios.get('https://fit-track-ilkr.onrender.com/exercises/')
+    axios.get('https://fit-track-epab.onrender.com/exercises/')
       .then(response => {
         this.setState({
           exercises: response.data,

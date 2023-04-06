@@ -11,7 +11,7 @@ const Exercise = ({ exercise, deleteExercise }) => (
     <td>{exercise.duration}</td>
     <td>{new Date(exercise.date).toDateString()}</td>
     <td>
-      <Link to={`https://fit-track-ilkr.onrender.com/edit/${exercise._id}`}>
+      <Link to={`https://fit-track-epab.onrender.com/edit/${exercise._id}`}>
       <Button variant="primary">
         Edit
       </Button></Link> |{' '}
@@ -29,7 +29,7 @@ const ExercisesList = () => {
 
   useEffect(() => {
     axios
-      .get('https://fit-track-ilkr.onrender.com/exercises/')
+      .get('https://fit-track-epab.onrender.com/exercises/')
       .then(response => {
         setExercises(response.data);
       })
@@ -39,7 +39,7 @@ const ExercisesList = () => {
   }, []);
 
   const deleteExercise = id => {
-    axios.delete(`https://fit-track-ilkr.onrender.com/exercises/${id}`).then(res => {
+    axios.delete(`https://fit-track-epab.onrender.com/exercises/${id}`).then(res => {
       console.log(res.data);
       setExercises(prevExercises => prevExercises.filter(ex => ex._id !== id));
     });
