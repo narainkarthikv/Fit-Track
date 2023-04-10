@@ -25,7 +25,7 @@ const ExercisesList = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/exercises/')
+      .get('https://fit-track-epab.onrender.com/exercises/')
       .then(response => {
         setExercises(response.data);
       })
@@ -35,7 +35,7 @@ const ExercisesList = () => {
   }, []);
 
   const deleteExercise = id => {
-    axios.delete(`http://localhost:4000/exercises/${id}`).then(res => {
+    axios.delete(`https://fit-track-epab.onrender.com/exercises/${id}`).then(res => {
       console.log(res.data);
       setExercises(prevExercises => prevExercises.filter(ex => ex._id !== id));
     });
