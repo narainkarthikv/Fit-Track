@@ -16,7 +16,7 @@ const Navbar = () => {
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
             <a exact className="nav-link" href="https://enchanting-vacherin-0b9f11.netlify.app/">
-              <FaDumbbell className="icon" /> Exercises
+              <FaDumbbell className="icon" /> Exercises List
             </a>
           </li>
           <li className="nav-item">
