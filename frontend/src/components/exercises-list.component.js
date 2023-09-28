@@ -4,6 +4,8 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import {FaTrash} from 'react-icons/fa';
+import Table from 'react-bootstrap/esm/Table';
+
 
 const Exercise = ({ exercise, deleteExercise }) => (
   <tr>

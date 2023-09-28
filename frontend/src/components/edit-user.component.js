@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
-
+import Table from 'react-bootstrap/esm/Table';
 
 export default class UsersList extends Component {
   constructor(props) {
