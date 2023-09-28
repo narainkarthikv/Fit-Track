@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
+import {FaTrash} from 'react-icons/fa';
 
 const Exercise = ({ exercise, deleteExercise }) => (
   <tr>
@@ -13,7 +14,7 @@ const Exercise = ({ exercise, deleteExercise }) => (
     <td>
       <Link onClick={() => deleteExercise(exercise._id)}>
       <Button variant="danger">
-        Delete
+        <FaTrash/>
       </Button>
       </Link>
     </td>
@@ -52,10 +53,10 @@ const ExercisesList = () => {
 
   return (
     <div>
-      <h3>Logged Exercises</h3>
+      <h3 style={{color:"white"}}>Logged Exercises</h3>
       <Table striped bordered hover responsive>
-        <thead>
-          <tr>
+        <thead className="thead-light">
+          <tr style={{color:"white",backgroundColor:"black"}}>
             <th>Username</th>
             <th>Description</th>
             <th>Duration</th>
@@ -63,7 +64,7 @@ const ExercisesList = () => {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>{exerciseList()}</tbody>
+        <tbody style={{backgroundColor:"white"}}>{exerciseList()}</tbody>
       </Table>
     </div>
   );

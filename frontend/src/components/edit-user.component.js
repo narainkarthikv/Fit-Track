@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { FaTrash } from 'react-icons/fa';
+
 
 export default class UsersList extends Component {
   constructor(props) {
@@ -29,27 +31,27 @@ export default class UsersList extends Component {
   render() {
     return (
       <div>
-        <h3>Users List</h3>
-        <table className="table">
+        <h3 style={{color:"white"}}>Users List</h3>
+        <Table striped bordered hover responsive>
           <thead className="thead-light">
-            <tr>
+            <tr style={{color:"white",backgroundColor:"black"}}>
               <th>Username</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody tbody style={{backgroundColor:"white"}}> 
             { this.state.users.map(user => {
               return (
                 <tr key={user._id}>
                   <td>{user.username}</td>
                   <td>
-                    <button className="btn btn-danger" onClick={() => { this.deleteUser(user._id) }}>Delete</button>
+                    <button className= "btn btn-danger" onClick={() => { this.deleteUser(user._id) }}> <FaTrash/> </button>
                   </td>
                 </tr>
               )
             })}
           </tbody>
-        </table>
+          </Table>
       </div>
     )
   }
