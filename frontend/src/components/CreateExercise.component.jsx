@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import './css/CreateExercise.component.css';
+
 
 export default class CreateExercise extends Component {
   constructor(props) {
@@ -60,52 +62,33 @@ export default class CreateExercise extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
     const exercise = {
       username: this.state.username,
       description: this.state.description,
       duration: this.state.duration,
       date: this.state.date,
     };
-  
+
     console.log(exercise);
-  
+
     axios.post('https://fit-track-epab.onrender.com/exercises/add', exercise)
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          username: '',
-          description: '',
-          duration: 0,
-          date: new Date(),
-        });
-      })
-      .catch(function(error){
-        console.log(error);
-      });
-  
-    axios.get('https://fit-track-epab.onrender.com/exercises/')
-      .then(response => {
-        this.setState({
-          exercises: response.data,
-        });
-      });
+      .then(res => console.log(res.data));
+    
+    window.location = '/';
   }
-  
-  
-  
 
   render() {
     return (
-      <div className="container-fluid">
-        {/* <h1>Create New Exercise Log</h1> */}
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
+      <div>
+        <form onSubmit={this.onSubmit} className='exercises-form-container'>
+          <div className='exercises-form-group'>
             <label>Username:</label>
             <select
               required
-              className="form-control"
               value={this.state.username}
               onChange={this.onChangeUsername}
+              className='exercises-form-control'
             >
               {this.state.users.map(user => (
                 <option key={user} value={user}>
@@ -115,39 +98,40 @@ export default class CreateExercise extends Component {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className='exercises-form-group'>
             <label>Description:</label>
             <input
               type="text"
               required
-              className="form-control"
               value={this.state.description}
               onChange={this.onChangeDescription}
+              className='exercises-form-control'
             />
           </div>
 
-          <div className="form-group">
-            <label>Duration (in minutes):</label>
+          <div className='exercises-form-group'>
+            <label>Duration:</label>
             <input
               type="text"
               required
-              className="form-control"
               value={this.state.duration}
               onChange={this.onChangeDuration}
+              className='exercises-form-control'
             />
           </div>
 
-          <div className="form-group">
+          <div className='exercises-form-group'>
             <label>Date:</label>
             <DatePicker
+              required
               selected={this.state.date}
               onChange={this.onChangeDate}
-              className="form-control"
+              className='exercises-Dateform-control'
             />
           </div>
           <br/>
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary">
+          <div>
+            <button type="submit" className='exercises-submit-btn'>
               Create Exercise Log
             </button>
           </div>

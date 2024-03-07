@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './css/CreateUser.component.css';
+
 
 export default class CreateUser extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
     this.state = {
       username: ''
     };
+
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
+
+  // componentDidMount(){
+  //   axios.get('https://fit-track-epab.onrender.com/users')
+  //   .then(res => {
+  //     if(res.data.length > 0){
+  //       this.setState({
+  //         users: res.data.map(user => user.username),
+  //         username: res.data[0].username
+  //      });
+  //     } 
+  //   });
+  // }
 
   onChangeUsername(e) {
     this.setState({
@@ -34,25 +48,27 @@ export default class CreateUser extends Component {
     this.setState({
       username: ''
     });
+
+    window.location = '/users';
   }
 
   render() {
     return (
       <div>
-        {/* <h3 className="my-3">Create New User</h3> */}
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
+        <form onSubmit={this.onSubmit} className='users-form-container'>
+          <div className='users-form-group'>
             <label>Username:</label>
             <input
               type="text"
               required
-              className="form-control"
+              className="users-form-control"
               value={this.state.username}
               onChange={this.onChangeUsername}
             />
           </div>
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary">
+          <br/>
+          <div>
+            <button type="submit" className='users-submit-btn'>
               Create User
             </button>
           </div>

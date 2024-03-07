@@ -1,0 +1,61 @@
+.exercises-table-container{
+    display: table;
+    justify-content: center;
+    margin: 25px 25px 0px 25px;
+}
+
+.exercises-table-head{
+    background-color: black;
+    color: white;
+    margin-right: 10px;
+    text-align: center;
+    padding: 15px;
+    width: 300px;
+}
+
+.exercises-table-body{
+    color: black;
+    background-color: white;
+    text-align: center;
+    height: 50px;
+    width: 300px;
+}
+
+.exercises-table-body:hover{
+    text-align: center;
+    background-color: lightgrey;
+    transform: scale(1.01);
+    transition-property: background-color,transform;
+    transition: 0.7s ease-in-out;
+}
+
+.exercises-table-content{
+    border-radius: 20px;
+}
+
+.exercises-btn-container{
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+}
+
+.exercises-btn-container:hover{
+    animation-duration: 0.5s;
+    animation-name: checkBounce;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background-color: #aaa;
+  }
+
+.exercises-trash-btn{
+    color: red;
+}
+
+@keyframes checkBounce{
+    from{
+        transform: translateY(0px);
+    }
+    to{
+        transform: translateY(-3px);
+    }
+}
