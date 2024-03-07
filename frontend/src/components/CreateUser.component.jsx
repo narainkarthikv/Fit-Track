@@ -49,7 +49,7 @@ export default class CreateUser extends Component {
       username: ''
     });
 
-    window.location = '/users';
+    window.location = 'https://narainkarthikv-fit-track.netlify.app/users';
   }
 
   render() {
