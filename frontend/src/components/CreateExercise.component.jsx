@@ -75,7 +75,7 @@ export default class CreateExercise extends Component {
     axios.post('https://fit-track-epab.onrender.com/exercises/add', exercise)
       .then(res => console.log(res.data));
     
-    window.location = '/';
+    window.location = 'https://narainkarthikv-fit-track.netlify.app/';
   }
 
   render() {
