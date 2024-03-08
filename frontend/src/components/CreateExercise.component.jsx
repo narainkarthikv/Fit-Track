@@ -12,7 +12,7 @@ const CreateExercise = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('https://fit-track-epab.onrender.com/')
+    axios.get('https://fit-track-epab.onrender.com/users')
       .then(response => {
         if (response.data.length > 0) {
           setUsers(response.data.map(user => user.username));
