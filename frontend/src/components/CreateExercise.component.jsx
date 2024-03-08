@@ -1,142 +1,118 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import './css/CreateExercise.component.css';
 
+const CreateExercise = () => {
+  const [username, setUsername] = useState('');
+  const [description, setDescription] = useState('');
+  const [duration, setDuration] = useState(0);
+  const [date, setDate] = useState(new Date());
+  const [users, setUsers] = useState([]);
 
-export default class CreateExercise extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      username: '',
-      description: '',
-      duration: 0,
-      date: new Date(),
-      users: [],
-    };
-
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeDuration = this.onChangeDuration.bind(this);
-    this.onChangeDate = this.onChangeDate.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    axios.get('https://fit-track-epab.onrender.com/users')
+  useEffect(() => {
+    axios.get('https://fit-track-epab.onrender.com/')
       .then(response => {
         if (response.data.length > 0) {
-          this.setState({
-            users: response.data.map(user => user.username),
-            username: response.data[0].username
-          });
+          setUsers(response.data.map(user => user.username));
+          setUsername(response.data[0].username);
         }
+      })
+      .catch(error => {
+        console.error('Error fetching users:', error);
       });
-  }
+  }, []);
 
-  onChangeUsername(e) {
-    this.setState({
-      username: e.target.value,
-    });
-  }
-
-  onChangeDescription(e) {
-    this.setState({
-      description: e.target.value,
-    });
-  }
-
-  onChangeDuration(e) {
-    this.setState({
-      duration: e.target.value,
-    });
-  }
-
-  onChangeDate(date) {
-    this.setState({
-      date: date,
-    });
-  }
-
-  onSubmit(e) {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const exercise = {
-      username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
-      date: this.state.date,
+      username: username,
+      description: description,
+      duration: duration,
+      date: date,
     };
 
     console.log(exercise);
 
     axios.post('https://fit-track-epab.onrender.com/exercises/add', exercise)
-      .then(res => console.log(res.data));
-    
-    window.location = 'https://narainkarthikv-fit-track.netlify.app/';
-  }
+      .then(res => {
+        console.log(res.data);
+        window.location = '/';
+      })
+      .catch(error => {
+        console.error('Error creating exercise:', error);
+      });
+  };
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit} className='exercises-form-container'>
-          <div className='exercises-form-group'>
-            <label>Username:</label>
-            <select
-              required
-              value={this.state.username}
-              onChange={this.onChangeUsername}
-              className='exercises-form-control'
-            >
-              {this.state.users.map(user => (
-                <option key={user} value={user}>
-                  {user}
-                </option>
-              ))}
-            </select>
-          </div>
+  return (
+    <div>
+      <form onSubmit={onSubmit} className='exercises-form-container'>
+        <div className='exercises-form-group'>
+          <label htmlFor="username">Username:</label>
+          <select
+            id="username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className='exercises-form-control'
+            autoComplete="username"
+          >
+            {users.map(user => (
+              <option key={user} value={user}>
+                {user}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <div className='exercises-form-group'>
-            <label>Description:</label>
-            <input
-              type="text"
-              required
-              value={this.state.description}
-              onChange={this.onChangeDescription}
-              className='exercises-form-control'
-            />
-          </div>
+        <div className='exercises-form-group'>
+          <label htmlFor="description">Description:</label>
+          <input
+            id="description"
+            type="text"
+            required
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className='exercises-form-control'
+            autoComplete="description"
+          />
+        </div>
 
-          <div className='exercises-form-group'>
-            <label>Duration:</label>
-            <input
-              type="text"
-              required
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
-              className='exercises-form-control'
-            />
-          </div>
+        <div className='exercises-form-group'>
+          <label htmlFor="duration">Duration:</label>
+          <input
+            id="duration"
+            type="text"
+            required
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            className='exercises-form-control'
+            autoComplete="duration"
+          />
+        </div>
 
-          <div className='exercises-form-group'>
-            <label>Date:</label>
-            <DatePicker
-              required
-              selected={this.state.date}
-              onChange={this.onChangeDate}
-              className='exercises-Dateform-control'
-            />
-          </div>
-          <br/>
-          <div>
-            <button type="submit" className='exercises-submit-btn'>
-              Create Exercise Log
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-}
+        <div className='exercises-form-group'>
+          <label htmlFor="date">Date:</label>
+          <DatePicker
+            id="date"
+            required
+            selected={date}
+            onChange={date => setDate(date)}
+            className='exercises-Dateform-control'
+            autoComplete="date"
+          />
+        </div>
+        <br/>
+        <div>
+          <button type="submit" className='exercises-submit-btn'>
+            Create Exercise Log
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CreateExercise;

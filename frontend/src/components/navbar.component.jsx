@@ -6,13 +6,13 @@ import './css/navbar.component.css';
 const Navbar = () => {
   return (
     <div className="navbar">
-      <a className="nav-board" href="https://narainkarthikv-fit-track.netlify.app/">
+      <a className="nav-board" href="/">
         <FaDumbbell className='icon'/> Fit Track
       </a>
-      <a className="nav-items" href="https://narainkarthikv-fit-track.netlify.app/">
+      <a className="nav-items" href="/">
         <FaDumbbell className='icon' /> <span className="nav-hide">Exercises</span>
       </a>
-      <a className="nav-items" href="https://narainkarthikv-fit-track.netlify.app/users">
+      <a className="nav-items" href="/users">
         <RiUserLine className='icon' />  <span className="nav-hide">Users</span>
       </a>
     </div>
