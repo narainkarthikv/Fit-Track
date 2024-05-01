@@ -1,0 +1,164 @@
+/* loginform.css */
+
+.LoginForm {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 500px;
+    transform: translate(100%,50%);
+    padding: 10px;
+    border: 3px outset lightseagreen;
+    border-radius: 20px;
+  }
+  
+  .loginform-img{
+    margin: auto;
+    height: 50px;
+    width: 50px;
+  }
+  
+  .loginform-header{
+    font-size: 18px;
+    text-align: center;
+    margin: 10px 0px 25px 0px;
+  }
+  
+  .loginform-label{
+    width: 300px;
+    margin: 5px 0 0 50px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .loginform-group {
+    display: inline-flex;
+    flex-direction: row;
+    margin: auto;
+    width: 500px;
+  }
+  
+  .loginform-control{
+    border: 3px outset lightseagreen;
+    font-size: 16px;
+    width: 100%;
+    height: 25px;
+    outline: none;
+    margin-right: 10%;
+    border-radius: 10px;
+    transition: border-color 0.4s ease-in-out;
+    text-align: center;
+  }
+  
+  .loginform-control:focus{
+    border: 3px outset #007bff;
+    outline: none;
+  }
+  
+  .loginform-control::placeholder{
+    text-align: center;
+  }
+  
+  .loginform-submit-container {
+    margin: auto;
+    position: relative;
+    display: inline-block; 
+  }
+  
+  .loginform-submit-btn {
+    color: white;
+    font-weight: bold;
+    position: relative;
+    z-index: 1; 
+    height: 50px;
+    width: 75px; 
+    text-align: center;
+    background-color: #247BA0;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+  }
+  
+  .loginform-submit-btn:hover{
+    background-color: #60cfbd;
+    transform: scale(1.02);
+    transition-property: background-color, transform;
+    transition: 0.4s ease-in-out;
+  }
+  
+  .loginform-error-msg{
+    margin-top: 5px;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .loginform-signup{
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .loginform-signup-btn{
+    color: #000;
+    cursor: default;
+    font-weight: bold;
+  }
+  
+  .loginform-signup-btn:hover{
+    color: red;
+    transition-property: all;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .loader,
+  .loader:before,
+  .loader:after {
+    background: black;
+    animation: load1 1s infinite ease-in-out;
+    width: 1em;
+    height: 2em;
+  }
+  
+  .loader {
+    width: 1em;
+    height: 2em;
+    color: black;
+    text-indent: -9999em;
+    margin: 0 auto;
+    margin-top: 3px;
+    position: relative;
+    font-size: 10px;
+    transform: translateZ(0);
+    animation-delay: -0.16s;
+  }
+  
+  .loader:before,
+  .loader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+  }
+  
+  .loader:before {
+    left: -1.5em;
+    animation-delay: -0.32s;
+  }
+  
+  .loader:after {
+    left: 1.5em;
+  }
+  
+  @keyframes load1 {
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 0;
+      height: 3em;
+    }
+    40% {
+      box-shadow: 0 -2em;
+      height: 2em;
+    }
+  }
+  

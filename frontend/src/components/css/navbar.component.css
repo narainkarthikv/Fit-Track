@@ -8,64 +8,6 @@
   text-decoration: none;
   float: left;
   color: black;
-  margin-right: 50px;
-}
-
-.nav-items{
-  background-color: whitesmoke;
-  border-radius: 75px;
-  text-decoration: none;
-  padding: 16px;
-  font-size: 16px;
-  text-align: center;
-  cursor: default;
-  color: black;
-  margin-right: 5px;
-}
-
-.nav-items:hover{
-  background-color: lightseagreen;
-  border-radius: 100px;
-  transition: background-color 0.7s ease-in-out;
-  animation-duration: 3s;
-  animation-name: smoothHide;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-.nav-items .nav-hide{
-  display: none;
-}
-
-.nav-items:hover .nav-hide{
-  display: inline-block;
-  animation-duration: 3s;
-  animation-name: smoothHide;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes smoothHide{
-  from{
-      max-width: 0%;
-  }
-  to{
-      max-width: 100%;
-  }
-}
-
-.icon{
-  text-align: center;
-  transform: translateY(2px);
-}
-
-@keyframes smoothHide{
-  from{
-      max-width: 0%;
-  }
-  to{
-      max-width: 100%;
-  }
 }
 
 .nav-profile{

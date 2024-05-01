@@ -1,40 +1,12 @@
-.welcome-message-card{
-    padding: 10px;
-    margin-left: 110px;
-}
-
-.all-list-card {
+.grid-container {
     display: grid;
-    grid-template-columns: 1fr 2fr; 
-    grid-gap: 20px; 
-    margin-left: 125px;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-rows: repeat(2, 1fr);    /* 2 rows */
+    gap: 20px; /* Spacing between grid items */
 }
 
-.left-side {
-    display: grid;
-    grid-template-rows: repeat(2, auto); 
-    grid-gap: 20px; 
-    border: 1px black solid;
-    width: 450px;
-    height: 500px;
-}
-
-.user-display-card{
-    border: 1px red solid;
-    padding-top: 10px;
-}
-
-.motivation-card{
-    border: 1px blue solid;
-    padding-top: 50px;
-}
-
-.right-side {
-    border: 1px black solid;
-    width: 800px;
-    overflow: auto; 
-}
-
-.calendar-card{
-    padding-left: 300px;
+.grid-item {
+    padding: 20px; /* Padding for each grid item */
+    border: 1px solid #ccc; /* Border for each grid item */
+    background-color: #f9f9f9; /* Background color */
 }

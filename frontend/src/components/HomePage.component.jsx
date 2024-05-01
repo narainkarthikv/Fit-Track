@@ -1,33 +1,24 @@
 import React from 'react';
-// import { Calendar, Whisper, Popover, Badge } from 'rsuite';
 import './css/HomePage.component.css';
-// import './css/calendar.css';
+import ExercisesList from './Home/ExercisesList.component';
+import Quotes from './Home/Quotes.component';
+import UserRoutine from './Home/UserRoutine.component';
+import HeatMap from './Home/HeatMap.component';
 
-const HomePage = () => {
-    
-    const time = new Date().getHours();
-
+const HomePage = ({ user }) => {
     return (
-        <div>
-            <div className="welcome-message-card">
-                <h1 className="welcome-message">
-                    <span style={{ color: `${time < 12 ? "orangered" : (time > 12 && time <= 16 ? "Yellow" : "darkslateblue")}` }}>
-                        {time < 12 ? "Good Morning 🌄" : (time > 12 && time <= 16 ? "Good Afternoon 🌅" : "Good Evening 🌇")}
-                    </span>
-                </h1>
+        <div className="grid-container">
+            <div className="grid-item">
+                <ExercisesList user={user} />
             </div>
-            <div className="all-list-card">
-                <div className="left-side">
-                    <div className="user-display-card">User details</div>
-                    <div className="motivation-card">
-                        <h1>Motivate</h1>
-                    </div>
-                </div>
-                <div className="right-side">
-                    <div className='calendar-card'>
-                         
-                    </div>
-                </div>
+            <div className="grid-item">
+                <Quotes user={user} />
+            </div>
+            <div className="grid-item">
+                <UserRoutine user={user} />
+            </div>
+            <div className="grid-item">
+                <HeatMap user={user} />
             </div>
         </div>
     );

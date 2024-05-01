@@ -1,20 +1,24 @@
 import React from 'react';
-import { FaDumbbell } from 'react-icons/fa';
-import { RiUserLine } from 'react-icons/ri';
+import { FaDumbbell, FaUserAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './css/navbar.component.css';
 
-const Navbar = () => {
+const Navbar = ({ user }) => { 
+ 
   return (
     <div className="navbar">
-      <a className="nav-board" href="/">
+      <Link className="nav-board" to={`/${user}`}>
         <FaDumbbell className='icon'/> Fit Track
-      </a>
-      <a className="nav-items" href="/">
-        <FaDumbbell className='icon' /> <span className="nav-hide">Exercises</span>
-      </a>
-      <a className="nav-items" href="/users">
-        <RiUserLine className='icon' />  <span className="nav-hide">Users</span>
-      </a>
+      </Link>
+        <>
+          <div className="nav-profile">
+            <FaUserAlt/>
+            <div className="dropdown">
+              <Link className="dropdown-items" to={`/${user}/edit`}><span>Edit Profile</span></Link>
+              <a href='/login' className="dropdown-items" ><span>Logout</span></a> 
+            </div>
+          </div>
+        </>
     </div>
   );
 };

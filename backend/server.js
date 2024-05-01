@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
 require('dotenv').config();
 
 const app = express();
@@ -11,17 +10,28 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri);
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully');
+
+mongoose.connect(uri , {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(error => console.error('Error connecting to MongoDB:', error));
+
+process.on('SIGINT', () => {
+  mongoose.connection.close(() => {
+    console.log('MongoDB connection closed');
+    process.exit(0);
+  });
 });
 
 const exercisesRouter = require('./routes/exercises');
-const usersRouter = require('./routes/users');
+const userRouter = require('./routes/user');
 
-app.use('/exercises', exercisesRouter);
-app.use('/users', usersRouter);
+
+app.use('/api/exercises', exercisesRouter);
+app.use('/api/user', userRouter);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
