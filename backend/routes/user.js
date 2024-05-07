@@ -5,10 +5,11 @@ const Exercise = require('../models/exercise.model');
 
 router.post('/add', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username,xp, email, password } = req.body;
 
     const newUser = new User({
       username,
+      xp,
       email,
       password, 
     });
@@ -35,8 +36,20 @@ router.post('/add', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const user = await User.find({});
-    res.json(user);
+    const users = await User.find({});
+    res.json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/:userId', async (req, res) => {
+  const { userId } = req.params;
+  
+  try {
+    const user = await User.findOne({ _id: userId});
+    res.json({username: user.username, xp: user.xp});
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Internal Server Error' });

@@ -1,12 +1,25 @@
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    grid-template-rows: repeat(2, 1fr);    /* 2 rows */
-    gap: 20px; /* Spacing between grid items */
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(2, 1fr);  
+    gap: 20px; 
 }
 
 .grid-item {
-    padding: 20px; /* Padding for each grid item */
-    border: 1px solid #ccc; /* Border for each grid item */
-    background-color: #f9f9f9; /* Background color */
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9; 
+    height: 200px;
+    width: 600px;
+    margin: 20px auto;
+}
+
+.grid-item-ExerciseList {
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9; 
+    height: 200px;
+    width: 600px;
+    margin: 20px auto;
+    overflow-y: auto;
 }

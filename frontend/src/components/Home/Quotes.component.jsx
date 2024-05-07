@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './css/Quotes.component.css';
 
-const Quotes = ({user}) => {
+const Quotes = ({ user }) => {
     const [quote, setQuote] = useState('');
 
     useEffect(() => {
@@ -15,18 +16,19 @@ const Quotes = ({user}) => {
                     'X-Api-Key': 'JfOwiyHyiwDRNeCqa/RPQg==cxrAlqAdpnbNusKB'
                 }
             });
-            console.log(user, response.data[0].quote);
-            setQuote(response.data[0].quote); 
+            setQuote(response.data[0].quote);
         }
-        catch(err){
+        catch (err) {
             console.error("Error fetching Quotes");
         }
     }
 
     return (
-        <div>
-            <h1>Inspirational Quote</h1>
-            <p>{quote}</p>
+        <div className="quote-container">
+            <h1 className="quote-title">Quote of the Day</h1>
+            <div className="quote-content">
+                <p className="quote-text">"{quote}"</p>
+            </div>
         </div>
     );
 };

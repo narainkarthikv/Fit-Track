@@ -7,18 +7,16 @@ const Navbar = ({ user }) => {
  
   return (
     <div className="navbar">
-      <Link className="nav-board" to={`/${user}`}>
+      <Link className="nav-brand" to={`/${user}`}>
         <FaDumbbell className='icon'/> Fit Track
       </Link>
-        <>
-          <div className="nav-profile">
-            <FaUserAlt/>
-            <div className="dropdown">
-              <Link className="dropdown-items" to={`/${user}/edit`}><span>Edit Profile</span></Link>
-              <a href='/login' className="dropdown-items" ><span>Logout</span></a> 
-            </div>
-          </div>
-        </>
+      <div className="nav-profile">
+        <FaUserAlt className="profile-icon" />
+        <div className="dropdown">
+          <Link className="dropdown-item" to={`/${user}/edit`}><span>Edit Profile</span></Link>
+          <a href='/login' className="dropdown-item"><span>Logout</span></a> 
+        </div>
+      </div>
     </div>
   );
 };

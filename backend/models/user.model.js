@@ -9,6 +9,10 @@ const userSchema = new Schema({
         trim: true,
         minlength: 3
     },
+    xp:{
+        type: Number,
+        required: true
+    },
     email:{
         type: String,
         required: true,

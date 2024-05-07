@@ -6,8 +6,9 @@ const exerciseSchema = new mongoose.Schema({
     Exercises: [{
         description: { type: String, required: true },
         duration: { type: Number, required: true },
-        dayCheck: { type: Boolean, required: true },
-    }]
+        exerciseCheck: { type: Boolean, required: true },
+    }],
+    dayCheck: { type: Boolean }
 }, 
 {
     collection: 'exercises'

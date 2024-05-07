@@ -33,14 +33,14 @@ router.get('/:userId/exercises_list', async (req, res) => {
 
 router.post('/:userId/add', async (req, res) => {
   const { userId } = req.params;
-  const { description, duration, dayCheck } = req.body; 
+  const { description, duration, exerciseCheck } = req.body; 
 
   try {
     const exercisesData = await Exercise.findOne({ userId: userId });
     if (!exercisesData) {
       return res.status(404).json({ message: 'Exercise data not found for this userId.' });
     }
-    exercisesData.Exercises.push({ description, duration, dayCheck }); 
+    exercisesData.Exercises.push({ description, duration, exerciseCheck }); 
     await exercisesData.save();
     res.status(201).json(exercisesData);
   } catch (error) {
