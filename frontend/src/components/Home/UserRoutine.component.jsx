@@ -1,46 +1,82 @@
-import { useEffect, useState } from "react";
-import axios from 'axios';
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import './css/UserRoutine.component.css';
+    import React, { useState, useEffect } from "react";
+    import axios from 'axios';
+    import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-const UserRoutine = ({ user }) => {
+    const UserRoutine = ({ userID, setUserDetails }) => {
+        const [dayCheck, setDayCheck] = useState(new Array(7).fill(false));
+        const [activeDayIndex, setActiveDayIndex] = useState(null);
 
-    const [dayCheck, setDayCheck] = useState(new Array(7).fill(false));
-    const [username, setUsername] = useState('');
+        const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    useEffect(() => {
-        fetchUsername(user);
-    }, [user]);
+        const resetWeeklyRoutine = () => {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const updatedDayCheck = new Array(7).fill(false);
+            updatedDayCheck[dayOfWeek] = false; 
+            setDayCheck(updatedDayCheck);
+            setActiveDayIndex(dayOfWeek);
+        };
+        
+        useEffect(() => {
+            resetWeeklyRoutine(); 
+            const millisecondsInADay = 86400000;
+        
+            const timer = setInterval(resetWeeklyRoutine, 7 * millisecondsInADay); 
+        
+            return () => {
+                clearInterval(timer);
+            };
+        }, []);
+        
 
-    const onButtonClick = (index) => {
-        const updatedCheck = [...dayCheck];
-        updatedCheck[index] = !updatedCheck[index];
-        setDayCheck(updatedCheck);
-    }
+        const onButtonClick = async (index) => {
+            if (index !== activeDayIndex) return;
+            const updatedCheck = [...dayCheck];
+            updatedCheck[index] = !updatedCheck[index];
+            setDayCheck(updatedCheck);
+            await updateTotalDays(userID, updatedCheck);
+            fetchTotalDays(userID);
+        };
+        
+        const fetchTotalDays = async (userID) => {
+            try {
+                const response = await axios.get(`https://fit-track-epab.onrender.com/api/user/${userID}`);
+                setUserDetails(prevDetails => ({ ...prevDetails, totalDays: response.data.totalDays }));
+            } catch (error) {
+                console.error('Error fetching total days:', error);
+            }
+        };
 
-    const fetchUsername = async (user) => {
-        try {
-            const response = await axios.get(`https://fit-track-epab.onrender.com/api/user/${user}`);
-            const { username } = response.data;
-            setUsername(username);
-        }
-        catch (err) {
-            console.error("Error fetching the user", err);
-        }
-    }
+        const updateTotalDays = async (userID, updatedCheck) => {
+            try {
+                const response = await axios.put(`https://fit-track-epab.onrender.com/api/user/${userID}/update-totalDays`, {
+                    updatedCheck: updatedCheck
+                });
+                console.log('Total days updated:', response.data.totalDays);
+            } catch (error) {
+                console.error('Error updating total days:', error);
+            }
+        };
 
-    return (
-        <div className="user-routine-container">
-            <h1>{username}'s Routine Check</h1>
-            <div className="day-buttons">
-                {dayCheck.map((day, index) => (
-                    <button key={index} onClick={() => onButtonClick(index)} className={`day-button ${day ? 'checked' : 'unchecked'}`}>
-                        {day ? <FaCheckCircle /> : <FaTimesCircle />}
-                    </button>
-                ))}
+        return (
+            <div className="d-flex flex-column justify-content-center align-items-center">
+                <h5 className="font-weight-bold">User Weekly Routine</h5>
+                <div className="btn-group" role="group" aria-label="Day Buttons">
+                    {dayCheck.map((day, index) => (
+                        <div key={index} className="d-flex flex-column align-items-center m-1">
+                            <button
+                                onClick={() => onButtonClick(index)}
+                                disabled={index !== activeDayIndex} 
+                                className={`btn rounded-pill d-flex ${day ? 'btn-success' : 'btn-danger'}`}
+                            >
+                                {day ? <FaCheckCircle /> : <FaTimesCircle />}
+                            </button>
+                            <small className="mt-1 font-weight-bold">{weekdays[index]}</small>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
-    )
-}
+        );
+    };
 
-export default UserRoutine;
+    export default UserRoutine;

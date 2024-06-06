@@ -12,12 +12,12 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        {isLoggedIn && <Navbar user={userID}/>}
+        {isLoggedIn && <Navbar user={userID} />}
         <Routes>
-          <Route path='/login' element={isLoggedIn ? <HomePage /> : <Login isAuthenticated={isLoggedIn} setIsAuthenticated={setIsLoggedIn} setUserID={setUserID}/>} />
-          <Route exact path={`/${userID}`} element={isLoggedIn ? <HomePage user={userID} /> : <Navigate to='/login' />}/>
-          <Route path={`/${userID}/edit`} element={<SignUp />}/>
-          <Route path='/signup' element={<SignUp />}/>
+          <Route path='/login' element={isLoggedIn ? <HomePage /> : <Login isAuthenticated={isLoggedIn} setIsAuthenticated={setIsLoggedIn} setUserID={setUserID} />} />
+          <Route exact path={`/${userID}`} element={isLoggedIn ? <HomePage user={userID} /> : <Navigate to='/login' />} />
+          <Route path={`/${userID}/edit`} element={<SignUp />} />
+          <Route path='/signup' element={<SignUp />} />
         </Routes>
       </div>
     </Router>

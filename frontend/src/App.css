@@ -12,9 +12,11 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.App{
+
+.App {
   background-color: red;
 }
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -34,10 +36,12 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
-.bg{
+
+.bg {
   background-color: white;
 }

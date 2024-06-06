@@ -8,11 +8,11 @@ const exerciseSchema = new mongoose.Schema({
         duration: { type: Number, required: true },
         exerciseCheck: { type: Boolean, required: true },
     }],
-    dayCheck: { type: Boolean }
-}, 
-{
-    collection: 'exercises'
-});
+    dayCheck: { type: Boolean, default: false }
+},
+    {
+        collection: 'exercises'
+    });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 

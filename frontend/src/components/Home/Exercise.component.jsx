@@ -1,13 +1,22 @@
 import { FaCheckCircle, FaTimesCircle, FaTrash } from "react-icons/fa";
-import './css/Exercise.component.css'; // Import CSS file for styling
 
 const Exercise = ({ deleteExercise, exercise }) => {
     return (
-        <tr className="exercise-row">
-            <td className="exercise-description">{exercise.description}</td>
-            <td className="exercise-duration">{exercise.duration} mins</td>
-            <td className="exercise-check">{exercise.exerciseCheck ? <FaCheckCircle className="check-icon" /> : <FaTimesCircle className="cross-icon" />}</td>
-            <td className="exercise-delete"><button className="delete-button" onClick={() => deleteExercise(exercise._id)}><FaTrash /></button></td>
+        <tr>
+            <td>{exercise.description}</td>
+            <td>{exercise.duration} mins</td>
+            <td>
+                {exercise.exerciseCheck ? (
+                    <FaCheckCircle className="text-success" />
+                ) : (
+                    <FaTimesCircle className="text-danger" />
+                )}
+            </td>
+            <td>
+                <button className="btn btn-danger btn-md rounded-pill" onClick={() => deleteExercise(exercise._id)}>
+                    <FaTrash className="d-flex align-items-center" />
+                </button>
+            </td>
         </tr>
     );
 }
