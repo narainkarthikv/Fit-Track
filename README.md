@@ -148,4 +148,4 @@ This is just the beginning! I look forward to making more meaningful contributio
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/narainkarthikv/Fit-Track/blob/main/MIT-LICENSE.txt) file for details.
