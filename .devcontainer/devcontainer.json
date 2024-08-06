@@ -1,0 +1,11 @@
+{
+    "name": "Fit Track Dev Container",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "frontend", // or "backend" if you want to start with backend
+    "workspaceFolder": "/workspace/frontend", // or "/workspace/backend" based on your starting service
+    "postCreateCommand": "npm install", // Adjust if needed
+    "forwardPorts": [
+        3000, // Frontend port
+        4000  // Backend port
+    ]
+}
