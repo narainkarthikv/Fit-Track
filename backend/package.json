@@ -18,5 +18,8 @@
     "nodemon": "^2.0.22",
     "request": "^2.88.2",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SignUp = () => {
-
+  const backendURL = process.env.REACT_APP_API_URL;
   const [formState, setFormState] = useState({
     username: '',
     email: '',
@@ -29,7 +29,7 @@ const SignUp = () => {
     const { confirmPassword, ...formData } = formState;
 
     try {
-      const response = await axios.post('https://fit-track-epab.onrender.com/api/user/add', formData);
+      const response = await axios.post(`${backendURL}/api/user/add`, formData);
       console.log('Response from server:', response.data);
       navigate('/login');
     } catch (error) {

@@ -3,7 +3,7 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import { Modal, Button } from 'react-bootstrap';
 
-const HeatMap = () => {
+const HeatMap = ({backendURL} ) => {
     const [selectedMonth, setSelectedMonth] = useState('January');
     const [selectedValue, setSelectedValue] = useState(null);
     const [showModal, setShowModal] = useState(false);

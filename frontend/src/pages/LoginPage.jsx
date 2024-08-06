@@ -6,13 +6,14 @@ const Login = ({ isAuthenticated, setIsAuthenticated, setUserID }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const backendURL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const handleLogin = async (email, password) => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch('https://fit-track-epab.onrender.com/api/user/login', {
+      const response = await fetch(`${backendURL}/api/user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +25,7 @@ const Login = ({ isAuthenticated, setIsAuthenticated, setUserID }) => {
         throw new Error('Login failed');
       }
 
-      const userResponse = await fetch(`https://fit-track-epab.onrender.com/api/user/`, {
+      const userResponse = await fetch(`${backendURL}/api/user/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

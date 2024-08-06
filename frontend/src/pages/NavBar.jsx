@@ -2,7 +2,7 @@ import React from 'react';
 import { FaDoorOpen, FaPencilAlt, FaDumbbell, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ user }) => {
+const NavBar = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 d-flex flex-row">
       <Link className="navbar-brand" to={`/${user}`}>
@@ -36,4 +36,4 @@ const Navbar = ({ user }) => {
   );
 };
 
-export default Navbar;
+export default NavBar;

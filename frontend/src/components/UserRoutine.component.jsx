@@ -5,9 +5,7 @@
     const UserRoutine = ({ userID, setUserDetails }) => {
         const [dayCheck, setDayCheck] = useState(new Array(7).fill(false));
         const [activeDayIndex, setActiveDayIndex] = useState(null);
-
         const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-
         const resetWeeklyRoutine = () => {
             const now = new Date();
             const dayOfWeek = now.getDay();
@@ -16,7 +14,8 @@
             setDayCheck(updatedDayCheck);
             setActiveDayIndex(dayOfWeek);
         };
-        
+        const backendURL = process.env.REACT_APP_API_URL;
+
         useEffect(() => {
             resetWeeklyRoutine(); 
             const millisecondsInADay = 86400000;
@@ -40,7 +39,7 @@
         
         const fetchTotalDays = async (userID) => {
             try {
-                const response = await axios.get(`https://fit-track-epab.onrender.com/api/user/${userID}`);
+                const response = await axios.get(`${backendURL}/api/user/${userID}`);
                 setUserDetails(prevDetails => ({ ...prevDetails, totalDays: response.data.totalDays }));
             } catch (error) {
                 console.error('Error fetching total days:', error);
@@ -49,7 +48,7 @@
 
         const updateTotalDays = async (userID, updatedCheck) => {
             try {
-                const response = await axios.put(`https://fit-track-epab.onrender.com/api/user/${userID}/update-totalDays`, {
+                const response = await axios.put(`${backendURL}/api/user/${userID}/update-totalDays`, {
                     updatedCheck: updatedCheck
                 });
                 console.log('Total days updated:', response.data.totalDays);
