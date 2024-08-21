@@ -36,3 +36,70 @@ The `frontend` directory contains the React application.
     - `navbar`: Navbar Component
 - `App.js`: The main component that sets up routes.
 - `index.js`: The entry point of the React application.
+
+# Backend Setup
+
+## 1. Navigate to the `backend` Directory
+
+Open your terminal and navigate to the `backend` directory:
+
+```sh
+cd backend
+```
+
+## 2. Install the Dependencies
+
+Install the required dependencies using npm:
+
+```sh
+npm install
+```
+
+## 3. Set Up Environment Variables
+
+1. **Create a `.env` file** by copying from the `.env.example` template:
+
+   ```sh
+   cp .env.example .env
+   ```
+
+2. **Edit the `.env` file** with your own configuration:
+
+   ```sh
+   nano .env
+   ```
+
+   Replace `mongodb://<your_mongo_db_uri>` with your actual MongoDB connection string. For example:
+
+   ```env
+   PORT=4000
+   ATLAS_URI=mongodb://username:password@host:port/database
+   ```
+
+   Save and close the file.
+
+## 4. Start the Server
+
+- **Without live updates**:
+
+  ```sh
+  node server.js
+  ```
+
+- **With live updates using `nodemon`** (if installed):
+
+  ```sh
+  nodemon server.js
+  ```
+
+## Project Structure
+
+The `backend` directory contains the Node.js server and Express application:
+
+- **`models`**: Contains the Mongoose schemas.
+  - `exercise.model`: Exercise Schema
+  - `user.model`: User Schema 
+- **`routes`**: Contains the API routes.
+  - `exercises`: Backend API Routes for exercises
+  - `user`: Backend API Routes for users 
+- **`server.js`**: The entry point of the server application.
