@@ -15,7 +15,8 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -39,72 +40,92 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <form className="p-3 form-outline position-absolute top-50 start-50 translate-middle border border-3 border-primary rounded-5 text-center font-weight-bold" onSubmit={handleSubmit}>
-        <h2 className='signupform-header mb-4'>Sign Up</h2>
+    <div className="d-flex align-items-center justify-content-center vh-100 bg-dark">
+      <form
+        className="p-5 bg-secondary text-white rounded-4 m-2"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="text-center mb-4">Sign Up</h1>
 
-        <div className="form-group row mb-3">
-          <label className='col-sm-4 col-form-label' htmlFor="username">Username:</label>
-          <div className="col-sm-8">
-            <input
-              id="username"
-              className='form-control'
-              type="text"
-              name="username"
-              value={formState.username}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Username Input */}
+        <div className="form-group mb-3">
+          <label htmlFor="username" className="visually-hidden">
+            Username
+          </label>
+          <input
+            id="username"
+            className="form-control bg-dark text-white border border-secondary"
+            type="text"
+            placeholder="Enter your Username"
+            name="username"
+            value={formState.username}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        <div className="form-group row mb-3">
-          <label className='col-sm-4 col-form-label' htmlFor="email">Email:</label>
-          <div className="col-sm-8">
-            <input
-              id="email"
-              className='form-control'
-              type="email"
-              name="email"
-              value={formState.email}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Email Input */}
+        <div className="form-group mb-3">
+          <label htmlFor="email" className="visually-hidden">
+            Email
+          </label>
+          <input
+            id="email"
+            className="form-control bg-dark text-white border border-secondary"
+            type="email"
+            placeholder="Enter your Email"
+            name="email"
+            value={formState.email}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        <div className="form-group row mb-3">
-          <label className='col-sm-4 col-form-label' htmlFor="password">Password:</label>
-          <div className="col-sm-8">
-            <input
-              id="password"
-              className='form-control'
-              type="password"
-              name="password"
-              value={formState.password}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Password Input */}
+        <div className="form-group mb-3">
+          <label htmlFor="password" className="visually-hidden">
+            Password
+          </label>
+          <input
+            id="password"
+            className="form-control bg-dark text-white border border-secondary"
+            type="password"
+            placeholder="Enter your Password"
+            name="password"
+            value={formState.password}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        <div className="form-group row mb-4">
-          <label className='col-sm-4 col-form-label' htmlFor="confirmPassword">Confirm Password:</label>
-          <div className="col-sm-8">
-            <input
-              id="confirmPassword"
-              className='form-control'
-              type="password"
-              name="confirmPassword"
-              value={formState.confirmPassword}
-              onChange={handleChange}
-            />
-          </div>
+        {/* Confirm Password Input */}
+        <div className="form-group mb-4">
+          <label htmlFor="confirmPassword" className="visually-hidden">
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            className="form-control bg-dark text-white border border-secondary"
+            type="password"
+            placeholder="Confirm your Password"
+            name="confirmPassword"
+            value={formState.confirmPassword}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        {error && <div className="text-danger text-center mb-3">Error Found</div>}
+        {error && <div className="text-danger text-center mb-3">{error}</div>}
 
-        <button className='btn btn-primary w-100 mb-3' type='submit'>Submit</button>
+        <button className="btn btn-danger w-100" type="submit">Sign Up</button>
 
-        <div className="text-center">
-          Already have an account? <Link className="loginform-signup-btn" to="/login">Login</Link>
+        <div className="text-center mt-4">
+          <small className="text-dark">
+            Already have a Fit-Track account?{' '}
+            <Link className="text-primary" to="/login">
+              Login
+            </Link>
+          </small>
         </div>
       </form>
     </div>

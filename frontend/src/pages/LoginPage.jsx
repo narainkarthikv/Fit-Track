@@ -1,112 +1,166 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+
 
 const Login = ({ isAuthenticated, setIsAuthenticated, setUserID }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // Combined state for email and password
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const backendURL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
-  const handleLogin = async (email, password) => {
-    try {
-      setIsSubmitting(true);
+  // Handler for input changes
+  const handleInputChange = useCallback((e) => {
+    const { id, value } = e.target;
+    setCredentials((prev) => ({ ...prev, [id]: value }));
+  }, []);
 
-      const response = await fetch(`${backendURL}/api/user/login`, {
+  // Function to handle login logic
+  const handleLogin = useCallback(async () => {
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      // First API call to login
+      const loginResponse = await fetch(`${backendURL}/api/user/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
       });
 
-      if (!response.ok) {
-        throw new Error('Login failed');
+      if (!loginResponse.ok) {
+        const errorData = await loginResponse.json();
+        throw new Error(errorData.message || 'Login failed');
       }
 
+      // Second API call to fetch user details
       const userResponse = await fetch(`${backendURL}/api/user/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`, // If using token-based auth
         },
       });
 
       if (!userResponse.ok) {
-        throw new Error('Error fetching user details');
+        const errorData = await userResponse.json();
+        throw new Error(errorData.message || 'Error fetching user details');
       }
 
       const users = await userResponse.json();
-      setIsAuthenticated(true);
-      const user = users.find(user => user.email === email);
-      setUserID(user._id);
-      navigate(`/${user._id}`);
+      const user = users.find((user) => user.email === credentials.email);
 
-    } catch (error) {
-      setError('Invalid user or password');
+      if (user) {
+        setIsAuthenticated(true);
+        setUserID(user._id);
+        navigate(`/${user._id}`);
+      } else {
+        throw new Error('User not found');
+      }
+    } catch (err) {
+      setError(err.message || 'Invalid user or password');
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [backendURL, credentials, navigate, setIsAuthenticated, setUserID]);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  // Handler for form submission
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { email, password } = credentials;
 
-    if (email && password) {
-      handleLogin(email, password);
-    } else {
-      setError('Please enter both user and password');
-    }
-  };
+      if (email && password) {
+        handleLogin();
+      } else {
+        setError('Please enter both email and password');
+      }
+    },
+    [credentials, handleLogin]
+  );
 
-  return isAuthenticated ? (
-    <Link to='/'></Link>
-  ) : (
-    <div className="container-fluid">
-      <form className="p-3 form-outline position-absolute top-50 start-50 translate-middle border border-3 border-primary rounded-5 text-center font-weight-bold" onSubmit={onSubmit}>
-        <h1 className='loginform-header text-center mb-4'>Login Page</h1>
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
-        <div className="form-group row mb-3">
-          <label className='col-sm-4 col-form-label' htmlFor="email">Email:</label>
-          <div className="col-sm-8">
-            <input
-              id="email"
-              className='form-control'
-              type="email"
-              placeholder="Enter Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+  return (
+    <div className="d-flex align-items-center justify-content-center vh-100 bg-dark">
+      <form
+        className="p-5 bg-secondary text-white rounded-4 m-2"
+        onSubmit={onSubmit}
+      >
+        <h1 className="text-center mb-4">Sign In</h1>
+
+        {/* Email Input */}
+        <div className="form-group mb-3">
+          <label htmlFor="email" className="visually-hidden">
+            Email
+          </label>
+          <input
+            id="email"
+            className="form-control bg-dark text-white border border-secondary"
+            type="email"
+            placeholder="Enter your Email"
+            value={credentials.email}
+            onChange={handleInputChange}
+            required
+          />
         </div>
 
-        <div className="form-group row mb-4">
-          <label className='col-sm-4 col-form-label' htmlFor="password">Password:</label>
-          <div className="col-sm-8">
-            <input
-              id="password"
-              className='form-control'
-              type="password"
-              placeholder="Enter Your Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+        {/* Password Input */}
+        <div className="form-group mb-4">
+          <label htmlFor="password" className="visually-hidden">
+            Password
+          </label>
+          <input
+            id="password"
+            className="form-control bg-dark text-white border border-secondary"
+            type="password"
+            placeholder="Enter your Password"
+            value={credentials.password}
+            onChange={handleInputChange}
+            required
+          />
         </div>
 
-        <button className={`btn btn-primary w-100 ${isSubmitting ? 'loading' : ''}`} type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (<div className="spinner-border spinner-border-sm text-light" role="status"><span className="sr-only">Loading...</span></div>) : 'Login'}
+        {/* Submit Button */}
+        <button
+          className="btn btn-danger w-100"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <div
+              className="spinner-border spinner-border-sm text-light"
+              role="status"
+              aria-hidden="true"
+            >
+              <span className="sr-only">Loading...</span>
+            </div>
+          ) : (
+            'Sign In'
+          )}
         </button>
 
-        {error && <div className="loginform-error-msg mt-3 text-danger text-center">{error}</div>}
+        {/* Error Message */}
+        {error && (
+          <div className="text-danger text-center mt-3">{error}</div>
+        )}
 
-        <div className="text-center mt-3">
-          Don't have an account? <Link className="loginform-signup-btn" to="/signup">Sign Up</Link>
+        {/* Signup Link */}
+        <div className="text-center mt-4">
+          <small className="text-dark">
+            New to Fit-Track?{' '}
+            <Link className="text-primary" to="/signup">
+              Sign Up Now
+            </Link>
+          </small>
         </div>
       </form>
     </div>
-
-
   );
 };
 
