@@ -100,14 +100,31 @@ router.put('/:userId/update-totalDays', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const totalDays = updatedCheck.filter(day => day === true).length;
+    const totalDays = updatedCheck.filter(day => day).length;
+    let weeklyStreak = 0;
+
+    // Calculate weekly streak based on consecutive true values in updatedCheck
+    let streak = 0;
+    for (let i = 0; i < updatedCheck.length; i++) {
+      if (updatedCheck[i]) {
+        streak++;
+      } else {
+        streak = 0; // reset streak if a day is missed
+      }
+      weeklyStreak = Math.max(weeklyStreak, streak);
+    }
+
     user.totalDays = totalDays;
+    user.weeklyStreak = weeklyStreak;
 
     await user.save();
 
-    res.status(200).json({ message: 'Total workout days updated successfully', totalDays: user.totalDays });
+    res.status(200).json({
+      message: 'Total workout days and weekly streak updated',
+      totalDays: user.totalDays, weeklyStreak: user.weeklyStreak
+    });
   } catch (error) {
-    console.error('Error updating total days:', error);
+    console.error('Error updating total days and weekly streak:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
