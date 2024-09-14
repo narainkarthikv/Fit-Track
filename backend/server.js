@@ -1,5 +1,3 @@
-//I've provided the test database for learning purposes only. Please ensure it's used responsibly and not misused in any way.
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -13,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection
-const uri = "mongodb+srv://narainkarthik812:dev-fittrack@mongod.87ibcef.mongodb.net/";
+const uri = process.env.ATLAS_URI;
 
 mongoose.connect(uri, {
   useUnifiedTopology: true,
