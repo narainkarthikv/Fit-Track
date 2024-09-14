@@ -1,8 +1,0 @@
-ignores:
-  - name: "Ignore ATLAS_URI on develop branch"
-    match:
-      # Regex pattern to match the specific secret (ATLAS_URI)
-      regex: "ATLAS_URI=.*"
-    path:
-      # Only apply the ignore rule in the develop branch
-      - "develop"

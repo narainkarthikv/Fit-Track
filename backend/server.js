@@ -1,17 +1,19 @@
+//I've provided the test database for learning purposes only. Please ensure it's used responsibly and not misused in any way.
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3000; // Default to 3000 if PORT is not defined
+const port = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Database connection
-const uri = process.env.ATLAS_URI;
+const uri = "mongodb+srv://narainkarthik812:dev-fittrack@mongod.87ibcef.mongodb.net/";
 
 mongoose.connect(uri, {
   useUnifiedTopology: true,
