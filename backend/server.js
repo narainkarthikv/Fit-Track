@@ -1,3 +1,5 @@
+// I've given the mongo atlas URI key for learning purposes, Use it more responsibly
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
