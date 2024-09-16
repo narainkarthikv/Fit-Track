@@ -6,9 +6,6 @@ Fit-Track is an exercise log-tracking application built using the MERN (MongoDB,
 - [Installation](#installation)
   - [Frontend](#frontend)
   - [Backend](#backend)
-- [Project Structure](#project-structure)
-  - [Frontend](#frontend-structure)
-  - [Backend](#backend-structure)
 - [Contributing](#contributing)
   - [Forking the Repository](#forking-the-repository)
   - [Cloning the Repository](#cloning-the-repository)
@@ -42,15 +39,35 @@ Fit-Track is an exercise log-tracking application built using the MERN (MongoDB,
     ```sh
     cd backend
     ```
+
 2. Install the dependencies:
     ```sh
     npm install
     ```
-3. Start the server:
+
+3. Setup MongoDB Atlas:
+    1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create an account if you don't already have one.
+    2. Create a new cluster by following the prompts. [Mongo Atlas Cluster Creation Tutorial](https://www.youtube.com/watch?v=esKNjzDZItQ)
+    3. Once the cluster is created, go to the **Database Access** section and create a user with the necessary privileges.
+    4. Go to **Network Access** and allow your IP address (or allow access from anywhere if testing locally).
+    5. In the **Clusters** section, click **Connect**, then choose **Connect your application**. You'll see a connection string that looks like this:
+        ```
+        mongodb+srv://<username>:<password>@cluster0.mongodb.net/?retryWrites=true&w=majority
+        ```
+    6. Replace `<username>` and `<password>` with your actual MongoDB Atlas username and password. Copy the entire connection string.
+
+4. Add MongoDB ATLAS_URI to `.env` file:
+    - Create a `.env` file in the `backend` directory.
+    - Add the following line to the `.env` file, replacing `<your-mongodb-connection-string>` with the connection string you copied from MongoDB Atlas:
+      ```bash
+      ATLAS_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/fit-track?retryWrites=true&w=majority
+      ```
+
+5. Start the server:
     ```sh
     node server.js
     ```
-    or if `nodemon` installed for live updates of backend
+    or if `nodemon` is installed for live updates of backend:
     ```sh
     nodemon server.js
     ```
