@@ -13,10 +13,6 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
-    totalDays: {
-        type: Number,
-        default: 0
-    },
     email: {
         type: String,
         required: true,
@@ -27,8 +23,10 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    date: { type: Date },
-    exercisesCount: { type: Number, default: 0 }
+    totalDays: {
+        type: Number,
+        default: 0
+    }
 }, {
     collection: 'users'
 });

@@ -1,49 +1,30 @@
-import React, { useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTotalDays, updateTotalDays, setDayCheck } from '../slices/userRoutineSlice'; 
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTotalDays } from "../slices/userRoutineSlice";
 
 const UserRoutine = ({ userID }) => {
     const dispatch = useDispatch();
-    const { dayCheck } = useSelector(state => state.userRoutine);
-    const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-    useEffect(() => {
-        dispatch(fetchTotalDays(userID));
-    }, [userID, dispatch]);
+    // Retrieve dayCheck and totalDays from Redux store
+    const { dayCheck = [] } = useSelector((state) => state.userRoutine); // Default to empty array if undefined
 
-    // Use useCallback to memoize the resetWeeklyRoutine function
-    const resetWeeklyRoutine = useCallback(() => {
-        const now = new Date();
-        const dayOfWeek = now.getDay();
-        const updatedDayCheck = new Array(7).fill(false);
-        updatedDayCheck[dayOfWeek] = false;
-        dispatch(setDayCheck(updatedDayCheck));
-    }, [dispatch]);
+    // Weekdays array
+    const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-    useEffect(() => {
-        resetWeeklyRoutine();
-        const millisecondsInADay = 86400000;
+    // Function to handle button clicks for marking days
+    const onButtonClick = (index) => {
+        const updatedDayCheck = [...dayCheck];
+        updatedDayCheck[index] = !updatedDayCheck[index]; // Toggle day status
 
-        const timer = setInterval(() => {
-            resetWeeklyRoutine(); // Reset every 7 days
-        }, 7 * millisecondsInADay);
-
-        return () => clearInterval(timer); // Clean up on component unmount
-    }, [resetWeeklyRoutine]);
-
-    const onButtonClick = async (index) => {
-        const updatedCheck = [...dayCheck];
-        updatedCheck[index] = !updatedCheck[index]; // Toggle the state for the clicked day
-        dispatch(setDayCheck(updatedCheck)); // Update the dayCheck state
-        await dispatch(updateTotalDays(userID, updatedCheck)); // Send the updated state to the server
+        // Dispatch action to update dayCheck and totalDays in Redux
+        dispatch(updateTotalDays(userID, updatedDayCheck));
     };
 
     return (
         <div className="d-flex flex-column justify-content-center align-items-center">
             <h5 className="font-weight-bold">User Weekly Routine</h5>
             <div className="btn-group" role="group" aria-label="Day Buttons">
-                {dayCheck.map((day, index) => (
+                {dayCheck.length > 0 && dayCheck.map((day, index) => (
                     <div key={index} className="d-flex flex-column align-items-center m-1">
                         <button
                             onClick={() => onButtonClick(index)}
