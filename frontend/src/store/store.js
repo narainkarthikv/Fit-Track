@@ -5,7 +5,7 @@ import userRoutineReducer from '../slices/userRoutineSlice';
 const store = configureStore({
   reducer: {
     exercises: exercisesReducer,
-    userRoutine: userRoutineReducer,
+    userRoutine: userRoutineReducer
   },
 });
 

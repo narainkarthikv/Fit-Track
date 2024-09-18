@@ -1,18 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux'; // Redux to fetch totalDays from state
 
-const TotalDays = ({ userDetails }) => {
+const TotalDays = ({ userDetails }) => { // Receive userDetails as props
+    const totalDays = useSelector((state) => state.userRoutine.totalDays); // Fetch totalDays from Redux state
 
     return (
         <div className='d-flex flex-column text-center font-weight-bold'>
-            <h5>{userDetails.username}'s Year Workout</h5>
-            <h6>Total Days : {userDetails.totalDays}</h6> 
+            <h5>{userDetails.username}'s Year Workout</h5> {/* Use userDetails passed as props */}
+            <h6>Total Days: {totalDays}</h6> 
             <div className="progress">
                 <div className="progress-bar bg-warning progress-bar-striped" 
                     role="progressbar" 
-                    style={{ width: `${(userDetails.totalDays / 365) * 100}%` }} 
-                    aria-valuenow={userDetails.xp} 
+                    style={{ width: `${(totalDays / 365) * 100}%` }} 
+                    aria-valuenow={totalDays} 
                     aria-valuemin="0" 
-                    aria-valuemax="100">
+                    aria-valuemax="365">
                 </div>   
             </div>  
         </div>

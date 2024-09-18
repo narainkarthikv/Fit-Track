@@ -7,8 +7,8 @@ import UserExperience from '../components/UserExperience';
 import TotalDays from '../components/TotalDays';
 import HeatMap from '../components/HeatMap';
 
-const HomePage = ({ user }) => {
-    const [userDetails, setUserDetails] = useState({ username: '', xp: 0, totalDays: 0 });
+const Home = ({ user }) => {
+    const [userDetails, setUserDetails] = useState({ username: '', xp: 0, totalDays: 0 }); // Manage user details
     const [quote, setQuote] = useState('');
     const backendURL = process.env.REACT_APP_API_URL;
 
@@ -16,7 +16,7 @@ const HomePage = ({ user }) => {
         const fetchUserDetails = async () => {
             try {
                 const response = await axios.get(`${backendURL}/api/user/${user}`);
-                setUserDetails(response.data);
+                setUserDetails(response.data); // Set user details from the backend
                 console.log(response.data);
             } catch (err) {
                 console.error("Error fetching the user", err);
@@ -55,7 +55,7 @@ const HomePage = ({ user }) => {
                 </div>
                 <div className="col-sm-3 col-md-3 col-lg-3 mb-3">
                     <div className="border rounded-5 p-3 bg-dark text-white">
-                        <TotalDays userDetails={userDetails} />
+                        <TotalDays userDetails={userDetails} /> {/* Pass userDetails to TotalDays */}
                     </div>
                 </div>
             </div>
@@ -84,4 +84,4 @@ const HomePage = ({ user }) => {
     );
 }
 
-export default HomePage;
+export default Home;

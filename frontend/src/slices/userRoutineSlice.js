@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Define the backend URL from environment variable
+const backendURL = process.env.REACT_APP_API_URL;
+
 const initialState = {
-  dayCheck: new Array(7).fill(false),
+  dayCheck: [false, false, false, false, false, false, false],
   totalDays: 0,
-  weeklyStreak: 0,
   status: 'idle',
   error: null,
 };
@@ -16,46 +18,45 @@ const userRoutineSlice = createSlice({
     setDayCheck: (state, action) => {
       state.dayCheck = action.payload;
     },
-    setTotalDays: (state, action) => {
-      state.totalDays = action.payload.totalDays;
-      state.weeklyStreak = action.payload.weeklyStreak;
+    updateTotalDaysSuccess: (state, action) => {
+      state.totalDays = action.payload; // Set the new totalDays value
+      state.status = 'succeeded';
+    },
+    updateTotalDaysFailure: (state, action) => {
+      state.error = action.payload;
+      state.status = 'failed';
     },
     setStatus: (state, action) => {
       state.status = action.payload;
     },
-    setError: (state, action) => {
-      state.error = action.payload;
-    },
   },
 });
 
-export const fetchTotalDays = (userID) => async dispatch => {
+export const { setDayCheck, updateTotalDaysSuccess, updateTotalDaysFailure, setStatus } = userRoutineSlice.actions;
+
+export const updateTotalDays = (userID, updatedDayCheck) => async (dispatch, getState) => {
   dispatch(setStatus('loading'));
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${userID}`);
-    const { totalDays, weeklyStreak } = response.data;
-    dispatch(setTotalDays({ totalDays, weeklyStreak }));
+    const url = `${backendURL}/api/user/${userID}/updateTotalDays`;
+    console.log(url); // Verify URL
+    
+    // Make the API call
+    await axios.post(url);
+
+    // Get the current state and calculate the new totalDays
+    const state = getState();
+    // const { dayCheck } = state.userRoutine;
+    console.log(state);
+    
+    // Calculate the new totalDays based on updatedDayCheck
+    const totalDays = updatedDayCheck.filter(Boolean).length;
+
+    dispatch(setDayCheck(updatedDayCheck));
+    dispatch(updateTotalDaysSuccess(totalDays));
   } catch (error) {
-    dispatch(setError(error.toString()));
+    console.error('Error in updateTotalDays:', error);
+    dispatch(updateTotalDaysFailure(error.toString()));
   }
 };
 
-export const updateTotalDays = (userID, updatedCheck) => async dispatch => {
-  try {
-    await axios.put(`${process.env.REACT_APP_API_URL}/api/user/${userID}/update-totalDays`, {
-      updatedCheck: updatedCheck
-    });
-    dispatch(fetchTotalDays(userID)); // Refresh the total days and weekly streak after update
-  } catch (error) {
-    dispatch(setError(error.toString()));
-  }
-};
-
-export const {
-    setDayCheck,
-    setTotalDays,
-    setStatus,
-    setError,
-  } = userRoutineSlice.actions;
-  
 export default userRoutineSlice.reducer;
