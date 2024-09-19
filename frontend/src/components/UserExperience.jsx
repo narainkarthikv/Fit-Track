@@ -1,6 +1,3 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 const UserExperience = ({ userDetails }) => {
     return (
         <div className='d-flex flex-column text-center font-weight-bold'>

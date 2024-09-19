@@ -13,7 +13,7 @@ const Exercise = ({ deleteExercise, exercise }) => {
                 )}
             </td>
             <td>
-                <button className="btn btn-danger btn-md rounded-pill" onClick={() => deleteExercise(exercise._id)}>
+                <button className="btn btn-outline-danger btn-md rounded-pill" onClick={() => deleteExercise(exercise._id)}>
                     <FaTrash className="d-flex align-items-center" />
                 </button>
             </td>

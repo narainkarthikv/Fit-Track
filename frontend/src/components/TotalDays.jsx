@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux'; // Redux to fetch totalDays from state
+import { useSelector } from 'react-redux'; 
 
-const TotalDays = ({ userDetails }) => { // Receive userDetails as props
-    const totalDays = useSelector((state) => state.userRoutine.totalDays); // Fetch totalDays from Redux state
+const TotalDays = ({ userDetails }) => { 
+    const totalDays = useSelector((state) => state.userRoutine.totalDays); 
 
     return (
         <div className='d-flex flex-column text-center font-weight-bold'>

@@ -28,7 +28,7 @@ const UserRoutine = ({ userID }) => {
                     <div key={index} className="d-flex flex-column align-items-center m-1">
                         <button
                             onClick={() => onButtonClick(index)}
-                            className={`btn rounded-pill d-flex ${day ? 'btn-success' : 'btn-danger'}`}
+                            className={`btn rounded-pill d-flex ${day ? 'btn-outline-success' : 'btn-outline-danger'}`}
                         >
                             {day ? <FaCheckCircle /> : <FaTimesCircle />}
                         </button>

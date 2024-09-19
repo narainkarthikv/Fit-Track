@@ -1,53 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import { Modal, Button } from 'react-bootstrap';
+import axios from 'axios';
 
-const HeatMap = ({backendURL} ) => {
-    const [selectedMonth, setSelectedMonth] = useState('January');
+const HeatMap = ({ backendURL }) => {
+    const [selectedMonth, setSelectedMonth] = useState(new Date().toLocaleString('default', { month: 'long' }));
     const [selectedValue, setSelectedValue] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [monthData, setMonthData] = useState([]);
 
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const months = Array.from({ length: 12 }, (_, index) => 
+        new Date(0, index).toLocaleString('default', { month: 'long' })
+    );
 
-    const data = {
-        'January': [
-            { date: '2024-01-01', count: 5, dayCheck: true },
-            { date: '2024-01-02', count: 3, dayCheck: false },
-            { date: '2024-01-03', count: 10, dayCheck: true },
-            // ... add more data for each day of January
-        ],
-        'February': [
-            { date: '2024-02-01', count: 2, dayCheck: true },
-            { date: '2024-02-02', count: 4, dayCheck: false },
-            // ... add more data for each day of February
-        ],
-        // ... add data for other months
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${backendURL}/api/exercises/data/${selectedMonth}`);
+                const data = response.data;
+                setMonthData(data);
+            } catch (error) {
+                console.error('Error fetching data', error);
+                setMonthData([]);
+            }
+        };
 
-    const getMonthData = (month) => {
-        const monthIndex = months.indexOf(month) + 1;
-        const year = '2024';
-        const daysInMonth = new Date(year, monthIndex, 0).getDate();
-
-        const defaultEntry = { count: 0, dayCheck: false }; 
-
-        const monthData = Array.from({ length: daysInMonth }, (_, index) => {
-            const day = index + 1;
-            const date = `${year}-${String(monthIndex).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            const entry = data[month]?.find(d => d.date === date) || defaultEntry;
-            return { date, ...entry };
-        });
-
-        return monthData;
-    };
+        fetchData();
+    }, [selectedMonth, backendURL]);
 
     const handleClick = (value) => {
         setSelectedValue(value);
         setShowModal(true);
     };
-
-    const monthData = getMonthData(selectedMonth);
 
     return (
         <div className="p-1 d-flex font-weight-bold">
@@ -71,8 +56,8 @@ const HeatMap = ({backendURL} ) => {
                 <div style={{ minHeight: "225px", maxHeight: "225px", overflowY: "auto" }}>
                     <div>
                         <CalendarHeatmap
-                            startDate={new Date(`${selectedMonth} 01 2024`)}
-                            endDate={new Date(`${selectedMonth} ${new Date(2024, months.indexOf(selectedMonth) + 1, 0).getDate()} 2024`)}
+                            startDate={new Date(`2024-${months.indexOf(selectedMonth) + 1}-01`)}
+                            endDate={new Date(`2024-${months.indexOf(selectedMonth) + 1}-${new Date(2024, months.indexOf(selectedMonth) + 1, 0).getDate()}`)}
                             values={monthData}
                             classForValue={(value) => {
                                 if (!value || value.count === 0) {
