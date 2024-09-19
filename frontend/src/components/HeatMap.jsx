@@ -19,7 +19,14 @@ const HeatMap = ({ backendURL }) => {
             try {
                 const response = await axios.get(`${backendURL}/api/exercises/data/${selectedMonth}`);
                 const data = response.data;
-                setMonthData(data);
+
+                // Ensure that the data is an array and in the correct format
+                if (Array.isArray(data) && data.every(item => item.date && item.count !== undefined)) {
+                    setMonthData(data);
+                } else {
+                    console.error('Data format is incorrect', data);
+                    setMonthData([]);
+                }
             } catch (error) {
                 console.error('Error fetching data', error);
                 setMonthData([]);
@@ -58,7 +65,7 @@ const HeatMap = ({ backendURL }) => {
                         <CalendarHeatmap
                             startDate={new Date(`2024-${months.indexOf(selectedMonth) + 1}-01`)}
                             endDate={new Date(`2024-${months.indexOf(selectedMonth) + 1}-${new Date(2024, months.indexOf(selectedMonth) + 1, 0).getDate()}`)}
-                            values={monthData}
+                            values={Array.isArray(monthData) ? monthData : []}
                             classForValue={(value) => {
                                 if (!value || value.count === 0) {
                                     return 'color-empty';
