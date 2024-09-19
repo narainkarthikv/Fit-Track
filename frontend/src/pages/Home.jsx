@@ -16,7 +16,7 @@ const Home = ({ user }) => {
         const fetchUserDetails = async () => {
             try {
                 const response = await axios.get(`${backendURL}/api/user/${user}`);
-                setUserDetails(response.data); // Set user details from the backend
+                setUserDetails(response.data);
                 console.log(response.data);
             } catch (err) {
                 console.error("Error fetching the user", err);
@@ -73,7 +73,7 @@ const Home = ({ user }) => {
                             </div>
                         </div>
                         <div className="col-12">
-                            <div className="border rounded-5 p-3 bg-secondary">
+                            <div className="border rounded-5 p-3 bg-dark text-white">
                                 <HeatMap userID={user} setUserDetails={setUserDetails} />
                             </div>
                         </div>

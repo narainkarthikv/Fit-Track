@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Quotes = ({ userID, quote }) => {
+const Quotes = ({ quote }) => {
     return (
         <div className='d-flex flex-column align-items-center'>
             <h5>Quote of the Day</h5>
