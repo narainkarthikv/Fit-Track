@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
+const Exercise = require('../models/exercise.model');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -20,6 +21,15 @@ router.post('/add', async (req, res) => {
         });
 
         await newUser.save();
+
+        const newExercise = new Exercise({
+            userId: newUser._id,
+            Exercises: [], 
+            trackExercises: [] 
+        });
+
+        // Save the new exercise to the database
+        await newExercise.save();
 
         res.status(200).json({ message: 'User created successfully' });
     } catch (error) {
