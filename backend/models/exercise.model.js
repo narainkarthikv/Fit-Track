@@ -8,6 +8,11 @@ const exerciseSchema = new mongoose.Schema({
         duration: { type: Number, required: true },
         exerciseCheck: { type: Boolean, required: true },
     }],
+    trackExercises: [{
+        date: { type: Date },
+        totalExercises: { type: Number },
+        feedback: {type: String, default: 'Bad'}
+    }]
 },
     {
         collection: 'exercises'
