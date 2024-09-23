@@ -25,7 +25,6 @@ const NavDropdown = ({ user, handleLogout }) => (
       <button
         className="nav-link dropdown-toggle btn btn-dark"
         id="navbarDropdown"
-        role="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
