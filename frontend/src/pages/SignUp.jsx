@@ -5,7 +5,9 @@ import { FaRunning, FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 const SignUp = () => {
-  const backendURL = process.env.REACT_APP_API_URL;
+  // Ensure backendURL is properly set in .env file
+  const backendURL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+  
   const [formState, setFormState] = useState({
     username: '',
     email: '',
@@ -68,18 +70,15 @@ const SignUp = () => {
         style={{ width: '100%', maxWidth: '400px', borderRadius: '12px' }}
         onSubmit={handleSubmit}
       >
-        {/* Icon and Title */}
         <div className="mb-4">
           <FaRunning size={50} color="#ff6f61" aria-hidden="true" />
           <h1 className="mt-2" style={{ color: '#ff6f61' }}>Join Fit-Track</h1>
           <p className="text-muted">Your fitness journey starts here!</p>
         </div>
 
-        {/* Progress Bar */}
         <ProgressBar now={progress} className="mb-3" animated style={{ height: '10px', borderRadius: '5px' }} />
         <div className="text-muted mb-3">{message}</div>
 
-        {/* Username Input */}
         <div className="form-group mb-3">
           <label htmlFor="username" className="visually-hidden">
             Username
@@ -105,7 +104,6 @@ const SignUp = () => {
           </div>
         </div>
 
-        {/* Email Input */}
         <div className="form-group mb-3">
           <label htmlFor="email" className="visually-hidden">
             Email
@@ -131,7 +129,6 @@ const SignUp = () => {
           </div>
         </div>
 
-        {/* Password Input */}
         <div className="form-group mb-3">
           <label htmlFor="password" className="visually-hidden">
             Password
@@ -157,7 +154,6 @@ const SignUp = () => {
           </div>
         </div>
 
-        {/* Confirm Password Input */}
         <div className="form-group mb-4">
           <label htmlFor="confirmPassword" className="visually-hidden">
             Confirm Password
