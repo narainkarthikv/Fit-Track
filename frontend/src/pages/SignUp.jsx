@@ -4,10 +4,38 @@ import axios from 'axios';
 import { FaRunning, FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
+// InputField Component
+const InputField = ({ id, name, type, placeholder, value, onChange, Icon }) => (
+  <div className="form-group mb-3">
+    <label htmlFor={id} className="visually-hidden">
+      {placeholder}
+    </label>
+    <div className="input-group">
+      <div className="input-group-prepend">
+        <span className="input-group-text">
+          <Icon />
+        </span>
+      </div>
+      <input
+        id={id}
+        className="form-control border-secondary"
+        type={type}
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={onChange}
+        required
+        aria-required="true"
+        aria-label={`${placeholder} input`}
+      />
+    </div>
+  </div>
+);
+
+// Main SignUp Component
 const SignUp = () => {
-  // Ensure backendURL is properly set in .env file
   const backendURL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
-  
+
   const [formState, setFormState] = useState({
     username: '',
     email: '',
@@ -15,26 +43,22 @@ const SignUp = () => {
     confirmPassword: '',
   });
 
-  const [progress, setProgress] = useState(0); 
-  const [message, setMessage] = useState('Let’s Get Started!'); 
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState('Let’s Get Started!');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Handle input change and update progress
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState((prevState) => ({ ...prevState, [name]: value }));
 
     // Calculate progress based on the number of fields filled
-    const filledFields = Object.values({ ...formState, [name]: value }).filter(
-      (field) => field !== ''
-    ).length;
+    const filledFields = Object.values({ ...formState, [name]: value }).filter((field) => field !== '').length;
     const newProgress = (filledFields / 4) * 100;
     setProgress(newProgress);
     updateMessage(newProgress);
   };
 
-  // Update message based on progress
   const updateMessage = (progress) => {
     if (progress === 0) setMessage("Let's Get Started!");
     else if (progress <= 25) setMessage('Warming Up!');
@@ -55,11 +79,10 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(`${backendURL}/api/user/add`, formData);
-      console.log('Response from server:', response.data);
       navigate('/login');
+      console.log("User added successfully: ", response);
     } catch (error) {
       setError('Failed to sign up');
-      console.error('Error signing up:', error);
     }
   };
 
@@ -79,105 +102,43 @@ const SignUp = () => {
         <ProgressBar now={progress} className="mb-3" animated style={{ height: '10px', borderRadius: '5px' }} />
         <div className="text-muted mb-3">{message}</div>
 
-        <div className="form-group mb-3">
-          <label htmlFor="username" className="visually-hidden">
-            Username
-          </label>
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">
-                <FaUser />
-              </span>
-            </div>
-            <input
-              id="username"
-              className="form-control border-secondary"
-              type="text"
-              placeholder="Username"
-              name="username"
-              value={formState.username}
-              onChange={handleChange}
-              required
-              aria-required="true"
-              aria-label="Username input"
-            />
-          </div>
-        </div>
-
-        <div className="form-group mb-3">
-          <label htmlFor="email" className="visually-hidden">
-            Email
-          </label>
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">
-                <FaEnvelope />
-              </span>
-            </div>
-            <input
-              id="email"
-              className="form-control border-secondary"
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={formState.email}
-              onChange={handleChange}
-              required
-              aria-required="true"
-              aria-label="Email input"
-            />
-          </div>
-        </div>
-
-        <div className="form-group mb-3">
-          <label htmlFor="password" className="visually-hidden">
-            Password
-          </label>
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">
-                <FaLock />
-              </span>
-            </div>
-            <input
-              id="password"
-              className="form-control border-secondary"
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={formState.password}
-              onChange={handleChange}
-              required
-              aria-required="true"
-              aria-label="Password input"
-            />
-          </div>
-        </div>
-
-        <div className="form-group mb-4">
-          <label htmlFor="confirmPassword" className="visually-hidden">
-            Confirm Password
-          </label>
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">
-                <FaLock />
-              </span>
-            </div>
-            <input
-              id="confirmPassword"
-              className="form-control border-secondary"
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              value={formState.confirmPassword}
-              onChange={handleChange}
-              required
-              aria-required="true"
-              aria-label="Confirm password input"
-            />
-          </div>
-        </div>
+        {/* Input Fields using InputField Component */}
+        <InputField
+          id="username"
+          name="username"
+          type="text"
+          placeholder="Username"
+          value={formState.username}
+          onChange={handleChange}
+          Icon={FaUser}
+        />
+        <InputField
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={formState.email}
+          onChange={handleChange}
+          Icon={FaEnvelope}
+        />
+        <InputField
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={formState.password}
+          onChange={handleChange}
+          Icon={FaLock}
+        />
+        <InputField
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          value={formState.confirmPassword}
+          onChange={handleChange}
+          Icon={FaLock}
+        />
 
         {error && <div className="text-danger mb-3">{error}</div>}
 

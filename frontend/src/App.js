@@ -5,55 +5,49 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 
-function App() {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userID, setUserID] = useState('');
-
   const navigate = useNavigate();
 
-  // Logout function
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserID('');
-    navigate('/'); // Redirect to root route after logging out
+    navigate('/'); // Redirect to root after logging out
   };
+
+  const renderLogin = () => (
+    isLoggedIn ? <Navigate to="/" /> : 
+    <Login 
+      isAuthenticated={isLoggedIn} 
+      setIsAuthenticated={setIsLoggedIn} 
+      setUserID={setUserID} 
+    />
+  );
+
+  const renderHome = () => (
+    isLoggedIn ? <Home user={userID} /> : <Navigate to="/login" />
+  );
 
   return (
     <div className="App">
       {isLoggedIn && <NavBar user={userID} handleLogout={handleLogout} />}
       <Routes>
-        <Route
-          path="/login"
-          element={
-            isLoggedIn ? (
-              <Navigate to="/" />
-            ) : (
-              <Login
-                isAuthenticated={isLoggedIn}
-                setIsAuthenticated={setIsLoggedIn}
-                setUserID={setUserID}
-              />
-            )
-          }
-        />
-        <Route
-          exact
-          path={`/${userID}`}
-          element={isLoggedIn ? <Home user={userID} /> : <Navigate to="/login" />}
-        />
+        <Route path="/login" element={renderLogin()} />
+        <Route path={`/${userID}`} element={renderHome()} />
         <Route path={`/${userID}/edit`} element={<SignUp />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* Add a redirect to root for any undefined routes */}
+        {/* Redirect undefined routes to root */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
-}
+};
 
-export default function WrappedApp() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
+const WrappedApp = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default WrappedApp;
