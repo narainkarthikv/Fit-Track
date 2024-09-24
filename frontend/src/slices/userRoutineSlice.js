@@ -42,11 +42,6 @@ export const updateTotalDays = (userID, updatedDayCheck) => async (dispatch, get
     
     // Make the API call
     await axios.post(url);
-
-    // Get the current state and calculate the new totalDays
-    const state = getState();
-    // const { dayCheck } = state.userRoutine;
-    console.log(state);
     
     // Calculate the new totalDays based on updatedDayCheck
     const totalDays = updatedDayCheck.filter(Boolean).length;
