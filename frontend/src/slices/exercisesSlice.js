@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define the backend URL from environment variable
 const backendURL = import.meta.env.VITE_API_URL;
 
 const initialState = {
@@ -23,7 +22,7 @@ const exercisesSlice = createSlice({
       state.status = 'failed';
     },
     addExerciseSuccess: (state, action) => {
-      state.exercises = action.payload;
+      state.exercises.push(action.payload); // Append the new exercise instead of replacing all
       state.status = 'succeeded';
     },
     deleteExerciseSuccess: (state, action) => {
@@ -49,9 +48,10 @@ export const fetchExercises = (userID) => async dispatch => {
 export const addExercise = (userID, newExerciseData) => async dispatch => {
   try {
     const response = await axios.post(`${backendURL}/api/exercises/${userID}/add`, newExerciseData);
-    dispatch(addExerciseSuccess(response.data.Exercises));
+    dispatch(addExerciseSuccess(response.data.newExercise)); // Assuming the API returns the newly added exercise
   } catch (error) {
     console.error('Error adding exercise:', error);
+    dispatch(fetchExercisesFailure(error.toString())); // Handle errors correctly
   }
 };
 
@@ -61,6 +61,7 @@ export const deleteExercise = (userID, exerciseId) => async dispatch => {
     dispatch(deleteExerciseSuccess(exerciseId));
   } catch (error) {
     console.error('Error deleting exercise:', error);
+    dispatch(fetchExercisesFailure(error.toString())); // Handle errors correctly
   }
 };
 

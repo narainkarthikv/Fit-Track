@@ -3,7 +3,6 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMonthData, addExercise } from '../slices/heatMapSlice';
-
 import HeatmapControls from './Heatmap/HeatmapControls';
 import ExerciseModal from './Heatmap/ExerciseModal';
 import DetailsModal from './Heatmap/DetailsModal';
@@ -13,14 +12,19 @@ const HeatMap = ({ userID }) => {
     const monthData = useSelector((state) => state.heatMap.monthData);
     const status = useSelector((state) => state.heatMap.status);
 
-    const [selectedMonth, setSelectedMonth] = useState(new Date().toLocaleString('default', { month: 'long' }));
+    // Set the default month to the current month
+    const [selectedMonth, setSelectedMonth] = useState(() => 
+        new Date().toLocaleString('default', { month: 'long' })
+    );
     const [selectedValue, setSelectedValue] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [newExerciseCount, setNewExerciseCount] = useState(0);
     const [exerciseDate, setExerciseDate] = useState(new Date().toISOString().split('T')[0]);
 
-    const months = Array.from({ length: 12 }, (_, index) => new Date(0, index).toLocaleString('default', { month: 'long' }));
+    const months = Array.from({ length: 12 }, (_, index) => 
+        new Date(0, index).toLocaleString('default', { month: 'long' })
+    );
 
     useEffect(() => {
         if (userID) {
@@ -59,11 +63,16 @@ const HeatMap = ({ userID }) => {
     };
 
     const renderCalendarHeatmap = () => {
-        const year = new Date().getFullYear(); // Get the current year
+        const year = new Date().getFullYear();
         const monthIndex = months.indexOf(selectedMonth);
-        const startDate = new Date(year, monthIndex, 0); // Set to the first day of the month
-        const endDate = new Date(year, monthIndex + 1, 0); // Set to the last day of the month
-    
+        const startDate = new Date(year, monthIndex, 1); 
+        const endDate = new Date(year, monthIndex + 1, 0);
+
+        const transformedData = Array.isArray(monthData) ? monthData.map(item => ({
+            date: new Date(item.date).toISOString().split('T')[0],
+            count: item.count,
+        })) : [];
+
         return (
             status === 'loading' ? (
                 <p>Loading...</p>
@@ -71,7 +80,7 @@ const HeatMap = ({ userID }) => {
                 <CalendarHeatmap
                     startDate={startDate}
                     endDate={endDate}
-                    values={Array.isArray(monthData) ? monthData : []}
+                    values={transformedData}
                     classForValue={(value) => {
                         if (!value || value.count === 0) return 'color-empty';
                         if (value.count < 4) return 'bg-danger';
@@ -85,7 +94,6 @@ const HeatMap = ({ userID }) => {
             )
         );
     };
-    
 
     return (
         <div className="p-1 d-flex font-weight-bold flex-column justify-content-center">

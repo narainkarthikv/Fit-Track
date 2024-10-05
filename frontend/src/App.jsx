@@ -13,7 +13,7 @@ const App = () => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserID('');
-    navigate('/'); // Redirect to root after logging out
+    navigate('/');
   };
 
   const renderLogin = () => (

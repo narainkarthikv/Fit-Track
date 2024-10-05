@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define the backend URL from environment variable
 const backendURL = import.meta.env.VITE_API_URL;
 
 const initialState = {
@@ -19,7 +18,7 @@ const userRoutineSlice = createSlice({
       state.dayCheck = action.payload;
     },
     updateTotalDaysSuccess: (state, action) => {
-      state.totalDays = action.payload; // Set the new totalDays value
+      state.totalDays = action.payload; 
       state.status = 'succeeded';
     },
     updateTotalDaysFailure: (state, action) => {

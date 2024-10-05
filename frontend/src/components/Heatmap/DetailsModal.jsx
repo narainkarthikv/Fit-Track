@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const DetailsModal = ({ showModal, handleClose, selectedValue }) => {
-    // Define default values
     const defaultValue = {
         date: 'No date selected',
         count: 0,
