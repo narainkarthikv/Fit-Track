@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Define the backend URL from environment variable
-const backendURL = process.env.REACT_APP_API_URL;
+const backendURL = import.meta.env.VITE_API_URL;
 
 const initialState = {
   dayCheck: [false, false, false, false, false, false, false],

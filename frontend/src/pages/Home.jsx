@@ -10,7 +10,7 @@ import HeatMap from '../components/HeatMap';
 const Home = ({ user }) => {
     const [userDetails, setUserDetails] = useState({ username: '', xp: 0, totalDays: 0 }); // Manage user details
     const [quote, setQuote] = useState('');
-    const backendURL = process.env.REACT_APP_API_URL;
+    const backendURL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -27,7 +27,7 @@ const Home = ({ user }) => {
             try {
                 const response = await axios.get('https://api.api-ninjas.com/v1/quotes?category=inspirational', {
                     headers: {
-                        'X-Api-Key': process.env.REACT_APP_APININJAS
+                        'X-Api-Key': import.meta.env.VITE_APININJAS
                     }
                 });
                 setQuote(response.data[0].quote);
@@ -35,6 +35,7 @@ const Home = ({ user }) => {
                 console.error("Error fetching Quotes", err);
             }
         };
+        
 
         fetchUserDetails();
         fetchQuote();

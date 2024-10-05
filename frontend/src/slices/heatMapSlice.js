@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const backendURL = process.env.REACT_APP_API_URL;
+const backendURL = import.meta.env.VITE_API_URL;
 
 const initialState = {
     monthData: [],
@@ -25,6 +25,10 @@ const heatMapSlice = createSlice({
             state.monthData = action.payload;
             state.status = 'succeeded';
         },
+        addExerciseFailure: (state, action) => {
+            state.error = action.payload;
+            state.status = 'failed';
+        },
         setStatus: (state, action) => {
             state.status = action.payload;
         },
@@ -39,11 +43,13 @@ export const fetchMonthData = (userID, selectedMonth) => async (dispatch) => {
         dispatch(fetchMonthDataSuccess(response.data));
     } catch (error) {
         dispatch(fetchMonthDataFailure(error.toString()));
+        dispatch(setStatus('failed'));
     }
 };
 
 // Async thunk to add exercise
 export const addExercise = (userID, newExerciseData) => async (dispatch) => {
+    dispatch(setStatus('loading'));
     try {
         await axios.post(`${backendURL}/api/exercises/${userID}/track-exercise`, newExerciseData);
 
@@ -52,8 +58,11 @@ export const addExercise = (userID, newExerciseData) => async (dispatch) => {
         
         // Dispatch success with updated month data
         dispatch(addExerciseSuccess(updatedMonthResponse.data));
+        dispatch(setStatus('succeeded'));
     } catch (error) {
         console.error('Error adding exercise:', error);
+        dispatch(addExerciseFailure(error.toString()));
+        dispatch(setStatus('failed'));
     }
 };
 
@@ -61,6 +70,7 @@ export const {
     fetchMonthDataSuccess,
     fetchMonthDataFailure,
     addExerciseSuccess,
+    addExerciseFailure,
     setStatus,
 } = heatMapSlice.actions;
 

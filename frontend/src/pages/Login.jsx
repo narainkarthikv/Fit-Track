@@ -8,7 +8,7 @@ const LoginPage = ({ isAuthenticated, setIsAuthenticated, setUserID }) => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emoji, setEmoji] = useState('🏋️‍♀️'); 
-  const backendURL = process.env.REACT_APP_API_URL || 'http://localhost:4000'; 
+  const backendURL = import.meta.env.VITE_API_URL || 'http://localhost:4000'; 
   const navigate = useNavigate();
 
   const handleInputChange = useCallback((e) => {

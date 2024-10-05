@@ -58,24 +58,34 @@ const HeatMap = ({ userID }) => {
         setNewExerciseCount(0);
     };
 
-    const renderCalendarHeatmap = () => (
-        status === 'loading' ? <p>Loading...</p> : (
-            <CalendarHeatmap
-                startDate={new Date(`2024-${months.indexOf(selectedMonth) + 1}-01`)}
-                endDate={new Date(`2024-${months.indexOf(selectedMonth) + 1}-${new Date(2024, months.indexOf(selectedMonth) + 1, 0).getDate()}`)}
-                values={Array.isArray(monthData) ? monthData : []}
-                classForValue={(value) => {
-                    if (!value || value.count === 0) return 'color-empty';
-                    if (value.count < 4) return 'bg-danger';
-                    if (value.count < 8) return 'bg-warning';
-                    return 'bg-success';
-                }}
-                onClick={handleClick}
-                horizontal={false}
-                gutterSize={5}
-            />
-        )
-    );
+    const renderCalendarHeatmap = () => {
+        const year = new Date().getFullYear(); // Get the current year
+        const monthIndex = months.indexOf(selectedMonth);
+        const startDate = new Date(year, monthIndex, 0); // Set to the first day of the month
+        const endDate = new Date(year, monthIndex + 1, 0); // Set to the last day of the month
+    
+        return (
+            status === 'loading' ? (
+                <p>Loading...</p>
+            ) : (
+                <CalendarHeatmap
+                    startDate={startDate}
+                    endDate={endDate}
+                    values={Array.isArray(monthData) ? monthData : []}
+                    classForValue={(value) => {
+                        if (!value || value.count === 0) return 'color-empty';
+                        if (value.count < 4) return 'bg-danger';
+                        if (value.count < 8) return 'bg-warning';
+                        return 'bg-success';
+                    }}
+                    onClick={handleClick}
+                    horizontal={false}
+                    gutterSize={5}
+                />
+            )
+        );
+    };
+    
 
     return (
         <div className="p-1 d-flex font-weight-bold flex-column justify-content-center">
