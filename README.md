@@ -1,6 +1,6 @@
 # Fit-Track
 
-Fit-Track is an exercise log-tracking application built using the MERN (MongoDB, Express, React, Node.js) stack. This documentation will guide you through the process of contributing to this project.
+Fit-Track is an exercise log-tracking application built using the MERN (MongoDB, Express, React+Vite, Node.js) stack. This documentation will guide you through the process of contributing to this project.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -30,7 +30,7 @@ Fit-Track is an exercise log-tracking application built using the MERN (MongoDB,
     ```
 3. Start the development server:
     ```sh
-    npm start
+    npm run dev
     ```
 
 ### Backend
@@ -93,8 +93,8 @@ The `frontend` directory contains the React application.
     - `Login`: Displaying a Login Page
     - `SignUp`: Displaying a SignUp and edit User Page
     - `navbar`: Navbar Component
-- `App.js`: The main component that sets up routes.
-- `index.js`: The entry point of the React application.
+- `App.jsx`: The main component that sets up routes.
+- `main.jsx`: The entry point of the React application.
 
 ### Backend
 

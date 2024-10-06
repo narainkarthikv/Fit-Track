@@ -16,11 +16,21 @@ const ExercisesList = ({ userID }) => {
         }
     }, [userID, status, dispatch]);
 
-    const handleDelete = (exerciseId) => dispatch(deleteExercise(userID, exerciseId));
+    useEffect(() => {
+        // Fetch exercises whenever the userID changes to ensure the correct data is shown
+        dispatch(fetchExercises(userID));
+    }, [userID, dispatch]);
+
+    const handleDelete = (exerciseId) => {
+        dispatch(deleteExercise(userID, exerciseId));
+    };
 
     const handleAdd = (e) => {
         e.preventDefault();
-        dispatch(addExercise(userID, newExerciseData));
+        dispatch(addExercise(userID, newExerciseData)).then(() => {
+            // Optionally fetch exercises again to ensure the state is updated
+            dispatch(fetchExercises(userID));
+        });
         setFormVisible(false);
         setNewExerciseData({ description: '', duration: 0, exerciseCheck: false });
     };
@@ -32,6 +42,8 @@ const ExercisesList = ({ userID }) => {
 
     return (
         <div className="p-1" style={{ minHeight: "420px", maxHeight: "420px", overflowY: "auto" }}>
+            {status === 'loading' && <p>Loading exercises...</p>}
+            {status === 'failed' && <p>Error fetching exercises.</p>}
             <ExerciseTable exercises={exercises} handleDelete={handleDelete} />
             {formVisible && (
                 <ExerciseForm

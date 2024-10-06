@@ -106,8 +106,7 @@ router.post('/:userId/track-exercise', async (req, res) => {
 
 // Get exercise data for a specific month
 router.get('/:userId/data/:month', async (req, res) => {
-  const { month } = req.params;
-
+  const { month, userId } = req.params;
   try {
     // Parse the month into a date range (start and end of the month)
     const year = new Date().getFullYear();

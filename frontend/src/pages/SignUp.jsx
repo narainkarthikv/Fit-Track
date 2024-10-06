@@ -34,7 +34,7 @@ const InputField = ({ id, name, type, placeholder, value, onChange, Icon }) => (
 
 // Main SignUp Component
 const SignUp = () => {
-  const backendURL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+  const backendURL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
   const [formState, setFormState] = useState({
     username: '',
